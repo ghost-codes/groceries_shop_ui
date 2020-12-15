@@ -5,11 +5,15 @@ import 'package:groceries_shop_ui/ui/views/baseView.dart';
 import 'package:groceries_shop_ui/ui/widgets/groceriesItem.dart';
 
 class HomeView extends StatelessWidget {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return BaseView<HomeModel>(
       builder: (context, model, child) {
         return Scaffold(
+          key: _scaffoldKey,
+          drawer: drawer(),
           appBar: AppBar(
             backgroundColor: Colors.white,
             leading: IconButton(
@@ -17,7 +21,9 @@ class HomeView extends StatelessWidget {
                 Icons.menu,
                 color: Colors.black,
               ),
-              onPressed: () {},
+              onPressed: () {
+                _scaffoldKey.currentState.openDrawer();
+              },
             ),
             actions: [
               IconButton(
@@ -31,7 +37,7 @@ class HomeView extends StatelessWidget {
                 children: [
                   IconButton(
                     icon: Icon(
-                      Icons.shopping_bag_outlined,
+                      Icons.shopping_cart_outlined,
                       color: Colors.black,
                     ),
                     onPressed: () {},
@@ -111,26 +117,103 @@ class HomeView extends StatelessWidget {
                     ],
                   ),
                 ),
-                SliverGrid(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      List<Grocery> items = model.getGroceries();
-                      return GroceriesItem(grocery: items[index]);
-                    },
-                    childCount: model.getGroceries().length,
-                  ),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 10.0,
-                    crossAxisSpacing: 10.0,
-                    childAspectRatio: 2 / 3,
-                  ),
-                )
+                SliverPadding(
+                    padding: EdgeInsets.all(15.0),
+                    sliver: Container(
+                      child: SliverGrid(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            List<Grocery> items = model.getGroceries();
+                            return GroceriesItem(grocery: items[index]);
+                          },
+                          childCount: model.getGroceries().length,
+                        ),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 15.0,
+                          crossAxisSpacing: 15.0,
+                          childAspectRatio: 2 / 3,
+                        ),
+                      ),
+                    ))
               ],
             ),
           ),
         );
       },
+    );
+  }
+
+  Drawer drawer() {
+    return Drawer(
+      child: ListView(
+        children: [
+          DrawerHeader(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  backgroundColor: Colors.grey,
+                  radius: 40,
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "User.email",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    GestureDetector(
+                      child: Text(
+                        "Edit",
+                        style: TextStyle(
+                          color: Colors.green,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "User.name",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              drawerItem(
+                  icon: Icons.location_on_outlined, label: "My Addresses"),
+              drawerItem(icon: Icons.credit_card, label: "Digital Payments"),
+              drawerItem(icon: Icons.label_outline, label: "Social Offers"),
+              drawerItem(icon: Icons.settings_outlined, label: "Settings"),
+              drawerItem(icon: Icons.help_outline, label: "Help & FAQ"),
+              drawerItem(icon: Icons.login_outlined, label: "Logout"),
+              // drawerItem(icon: Icons.location_on_outlined,label: "My Addresses"),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  ListTile drawerItem({IconData icon, String label}) {
+    return ListTile(
+      leading: Icon(
+        icon,
+        color: Colors.green,
+      ),
+      title: Text(label),
     );
   }
 

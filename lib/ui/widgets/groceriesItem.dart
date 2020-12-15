@@ -11,25 +11,31 @@ class GroceriesItem extends StatelessWidget {
       // color: Colors.black,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          AspectRatio(
-            aspectRatio: 1.0,
-            child: Image.asset(
-              grocery.imageUrl,
-              fit: BoxFit.cover,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10.0),
+            child: AspectRatio(
+              aspectRatio: 1.0,
+              child: Image.asset(
+                grocery.imageUrl,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Text(
-            grocery.groceriesName,
+            grocery.groceriesName.toUpperCase(),
             style: TextStyle(
               color: Colors.grey,
               fontWeight: FontWeight.bold,
-              fontSize: 14,
+              fontSize: 16,
             ),
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "GH ${grocery.price}",
@@ -41,16 +47,22 @@ class GroceriesItem extends StatelessWidget {
                   Text(
                     "${grocery.weight} (${grocery.itemCount} pieces)",
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 16,
                       color: Colors.grey,
                     ),
                   ),
                 ],
               ),
-              CircleAvatar(
-                radius: 10,
-                backgroundColor: Colors.green,
-                child: Icon(Icons.add),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                padding: EdgeInsets.all(2),
+                child: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
               ),
             ],
           ),
