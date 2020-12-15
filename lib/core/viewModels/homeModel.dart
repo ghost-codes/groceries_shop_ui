@@ -1,9 +1,19 @@
+import 'package:groceries_shop_ui/core/enums.dart';
 import 'package:groceries_shop_ui/core/models/groceries.dart';
 import 'package:groceries_shop_ui/core/models/groceriesModel.dart';
 import 'package:groceries_shop_ui/core/viewModels/baseModel.dart';
 import 'package:groceries_shop_ui/ui/widgets/groceriesItem.dart';
 
 class HomeModel extends BaseModel {
+  SortBy _sortBy = SortBy.TopSelling;
+
+  SortBy get sortBy => _sortBy;
+
+  setSort(SortBy value) {
+    _sortBy = value;
+    notifyListeners();
+  }
+
   List<String> _categories = [
     "Fruit",
     "Vegetables",

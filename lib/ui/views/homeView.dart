@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:groceries_shop_ui/core/enums.dart';
 import 'package:groceries_shop_ui/core/models/groceriesModel.dart';
 import 'package:groceries_shop_ui/core/viewModels/homeModel.dart';
 import 'package:groceries_shop_ui/ui/views/baseView.dart';
@@ -111,14 +112,22 @@ class HomeView extends StatelessWidget {
                         height: 10,
                       ),
                       headerWithRightClickable(
-                          left: "TOP SELLING PRODUCTS",
-                          right: "Sort",
-                          rightIcon: Icons.menu),
+                        left: "TOP SELLING PRODUCTS",
+                        right: "Sort",
+                        rightIcon: Icons.menu,
+                        function: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) => SortByAlert(
+                                    model: model,
+                                  ));
+                        },
+                      ),
                     ],
                   ),
                 ),
                 SliverPadding(
-                    padding: EdgeInsets.all(15.0),
+                    padding: EdgeInsets.symmetric(horizontal: 15.0),
                     sliver: Container(
                       child: SliverGrid(
                         delegate: SliverChildBuilderDelegate(
@@ -236,7 +245,7 @@ class HomeView extends StatelessWidget {
   }
 
   Widget headerWithRightClickable(
-      {String left, String right, IconData rightIcon}) {
+      {String left, String right, IconData rightIcon, Function function}) {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Row(
@@ -246,16 +255,82 @@ class HomeView extends StatelessWidget {
             left,
             // style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          Row(
-            children: [
-              rightIcon == null
-                  ? SizedBox.shrink()
-                  : Icon(rightIcon, color: Colors.green),
-              Text(
-                right,
-                style: TextStyle(color: Colors.green),
-              ),
-            ],
+          GestureDetector(
+            onTap: function,
+            child: Row(
+              children: [
+                rightIcon == null
+                    ? SizedBox.shrink()
+                    : Icon(rightIcon, color: Colors.green),
+                Text(
+                  right,
+                  style: TextStyle(color: Colors.green),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SortByAlert extends StatefulWidget {
+  final HomeModel model;
+
+  const SortByAlert({Key key, this.model}) : super(key: key);
+  @override
+  _SortByAlertState createState() => _SortByAlertState();
+}
+
+class _SortByAlertState extends State<SortByAlert> {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        "Sort By",
+        style: TextStyle(
+          color: Colors.green,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      content: SingleChildScrollView(
+        child: Column(
+          children: [
+            sortByItem("Top Selling", widget.model, SortBy.TopSelling),
+            sortByItem("Low to High Prices", widget.model, SortBy.LtoHPrice),
+            sortByItem("High to Low Prices", widget.model, SortBy.HtoLPrice),
+            sortByItem("Newest", widget.model, SortBy.Newest),
+            sortByItem("Alphabetically A-Z", widget.model, SortBy.AlphaAZ),
+            sortByItem("Alphabetically Z-A", widget.model, SortBy.AlphaZA),
+          ],
+        ),
+      ),
+    );
+  }
+
+  sortByItem(String title, HomeModel model, SortBy value) {
+    return GestureDetector(
+      onTap: () {
+        model.setSort(value);
+        setState(() {});
+      },
+      child: Row(
+        children: [
+          Radio(
+            value: value,
+            activeColor: Colors.red,
+            groupValue: model.sortBy,
+            onChanged: (SortBy value) {
+              model.setSort(value);
+              setState(() {});
+            },
+          ),
+          Text(
+            title,
+            style: TextStyle(
+                // fontWeight: FontWeight.bold,
+                fontSize: 18),
           ),
         ],
       ),
