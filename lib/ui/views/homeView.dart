@@ -4,6 +4,7 @@ import 'package:groceries_shop_ui/core/models/groceriesModel.dart';
 import 'package:groceries_shop_ui/core/viewModels/homeModel.dart';
 import 'package:groceries_shop_ui/ui/views/baseView.dart';
 import 'package:groceries_shop_ui/ui/widgets/groceriesItem.dart';
+import 'package:groceries_shop_ui/ui/widgets/universalWidgets.dart';
 
 class HomeView extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -34,30 +35,7 @@ class HomeView extends StatelessWidget {
                 ),
                 onPressed: () {},
               ),
-              Stack(
-                children: [
-                  IconButton(
-                    icon: Icon(
-                      Icons.shopping_cart_outlined,
-                      color: Colors.black,
-                    ),
-                    onPressed: () {},
-                  ),
-                  true
-                      ? Positioned(
-                          right: 5,
-                          top: 5,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.red,
-                            radius: 10,
-                            child: Text(
-                              "3",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ))
-                      : SizedBox.shrink(),
-                ],
-              ),
+              CartIcon(),
             ],
             title: Row(
               children: [

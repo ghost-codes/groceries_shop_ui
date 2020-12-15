@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:groceries_shop_ui/core/models/groceriesModel.dart';
+import 'package:groceries_shop_ui/ui/views/detailsView.dart';
 
 class GroceriesItem extends StatelessWidget {
   final Grocery grocery;
@@ -13,13 +14,24 @@ class GroceriesItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10.0),
-            child: AspectRatio(
-              aspectRatio: 1.0,
-              child: Image.asset(
-                grocery.imageUrl,
-                fit: BoxFit.cover,
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DetailsView(grocery: grocery)));
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: AspectRatio(
+                aspectRatio: 1.0,
+                child: Hero(
+                  tag: grocery.imageUrl,
+                  child: Image.asset(
+                    grocery.imageUrl,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ),
           ),
