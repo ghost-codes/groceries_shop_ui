@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 class BaseView<T extends BaseModel> extends StatefulWidget {
   final Function(BuildContext context, T model, Widget child) builder;
-  Function(T) onModelReady;
+  final Function(T) onModelReady;
   BaseView({this.builder, this.onModelReady});
 
   @override

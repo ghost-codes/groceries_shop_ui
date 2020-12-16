@@ -40,7 +40,7 @@ class GroceriesItem extends StatelessWidget {
             style: TextStyle(
               color: Colors.grey,
               fontWeight: FontWeight.bold,
-              fontSize: 16,
+              fontSize: 13,
             ),
           ),
           Row(
@@ -52,14 +52,14 @@ class GroceriesItem extends StatelessWidget {
                   Text(
                     "GH ${grocery.price}",
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 16,
                         color: Colors.black,
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
                     "${grocery.weight} (${grocery.itemCount} pieces)",
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 13,
                       color: Colors.grey,
                     ),
                   ),

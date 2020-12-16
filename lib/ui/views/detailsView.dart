@@ -13,7 +13,7 @@ class DetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<DetailsModel>(
       onModelReady: (model) {
-        model.getRelatedProd(grocery.type, grocery.groceriesName);
+        model.getRelatedProd(grocery.type, grocery.imageUrl);
       },
       builder: (context, model, child) {
         return Scaffold(
@@ -134,13 +134,24 @@ class DetailsView extends StatelessWidget {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
                     Container(
-                      height: 120,
-                      width: 80,
-                      child: ListView.builder(itemBuilder: (context, index) {
-                        return GroceriesItem(
-                            grocery: model.localGroceries[index]);
-                      }),
-                    )
+                      height: ((MediaQuery.of(context).size.width - 35) / 2) *
+                          (3 / 2),
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: model.localGroceries.length,
+                        itemBuilder: (context, index) {
+                          // print(model.localGroceries);
+                          return Padding(
+                            padding: const EdgeInsets.all(7.0),
+                            child: AspectRatio(
+                              aspectRatio: 2 / 3,
+                              child: GroceriesItem(
+                                  grocery: model.localGroceries[index]),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),

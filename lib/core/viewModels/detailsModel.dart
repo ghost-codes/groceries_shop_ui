@@ -8,20 +8,24 @@ class DetailsModel extends BaseModel {
 
   List<Grocery> get localGroceries => _groceries;
 
-  getRelatedProd(ProductType type, name) {
-    _groceries = groceries.map((e) {
-      if (e["type"] == type && e["name"] == name) {
-        return Grocery(
-          detials: e["details"],
-          imageUrl: e["imageUrl"],
-          groceriesName: e["name"],
-          price: e["price"],
-          itemCount: e["itemCount"],
-          type: e["type"],
-          weight: e["weight"],
-        );
-      }
-    }).toList();
+  getRelatedProd(ProductType type, imageUrl) {
+    groceries.forEach(
+      (e) {
+        if (e["type"] == type && e["imageUrl"] != imageUrl) {
+          _groceries.add(
+            Grocery(
+              detials: e["details"],
+              imageUrl: e["imageUrl"],
+              groceriesName: e["name"],
+              price: e["price"],
+              itemCount: e["itemCount"],
+              type: e["type"],
+              weight: e["weight"],
+            ),
+          );
+        }
+      },
+    );
     notifyListeners();
   }
 }
